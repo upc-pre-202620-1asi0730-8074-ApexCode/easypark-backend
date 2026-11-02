@@ -1,0 +1,11 @@
+**/bin/
+**/obj/
+**/.vs/
+**/.idea/
+**/.vscode/
+**/*.user
+**/.env
+**/.env.*
+!**/.env.example
+**/appsettings.Development.json
+EasyPark.Platform.Tests/
