@@ -1,0 +1,15 @@
+EASYPARK - PRUEBA AUTOMATICA DE LOS 60 ENDPOINTS
+
+1. Extrae este ZIP dentro de la carpeta backend (la que contiene EasyPark.Platform.sln).
+2. Deja Docker Desktop abierto.
+3. Con MySQL y API iniciados o apagados, abre PowerShell en backend.
+4. Ejecuta: .\scripts\Test-Todos-Endpoints-EasyPark.ps1
+
+El script comprueba o inicia MySQL/API, crea SOLO datos nuevos de prueba,
+recorre las 60 rutas REST distintas, y guarda informes en backend\test-results.
+Ejecuta llamadas extra para crear dependencias y verificar los cambios de estado.
+No es un sustituto de pruebas de carga, seguridad o integracion frontend.
+No lo ejecutes en produccion: admite solo http://localhost o 127.0.0.1.
+Para probar la API ya encendida, usa -OnlyTest.
+Para incluir pruebas xUnit, usa -RunUnitTests.
+Si PowerShell bloquea la ejecucion: powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\Test-Todos-Endpoints-EasyPark.ps1

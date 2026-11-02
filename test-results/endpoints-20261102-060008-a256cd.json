@@ -1,0 +1,594 @@
+﻿[
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/authentication/sign-up",
+        "HTTP":  201,
+        "Resultado":  "OK",
+        "Milisegundos":  196,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/authentication/sign-in",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  164,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/profiles",
+        "HTTP":  201,
+        "Resultado":  "OK",
+        "Milisegundos":  39,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/profiles",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  15,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/profiles/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  37,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "PUT",
+        "Ruta":  "/api/v1/profiles/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  34,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/parking-facilities",
+        "HTTP":  201,
+        "Resultado":  "OK",
+        "Milisegundos":  50,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/parking-facilities",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  54,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/parking-facilities/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  48,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "PUT",
+        "Ruta":  "/api/v1/parking-facilities/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  41,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/parking-spots",
+        "HTTP":  201,
+        "Resultado":  "OK",
+        "Milisegundos":  43,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/parking-spots",
+        "HTTP":  201,
+        "Resultado":  "OK",
+        "Milisegundos":  30,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/parking-spots",
+        "HTTP":  201,
+        "Resultado":  "OK",
+        "Milisegundos":  68,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/parking-spots",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  52,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/parking-spots/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  34,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "PUT",
+        "Ruta":  "/api/v1/parking-spots/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  42,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/authentication/sign-up",
+        "HTTP":  201,
+        "Resultado":  "OK",
+        "Milisegundos":  161,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/authentication/sign-in",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  188,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/profiles",
+        "HTTP":  201,
+        "Resultado":  "OK",
+        "Milisegundos":  24,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/vehicles",
+        "HTTP":  201,
+        "Resultado":  "OK",
+        "Milisegundos":  56,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/vehicles",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  17,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/vehicles/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  30,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "PUT",
+        "Ruta":  "/api/v1/vehicles/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  36,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/reservations",
+        "HTTP":  201,
+        "Resultado":  "OK",
+        "Milisegundos":  153,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/reservations",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  25,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/reservations/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  23,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/parking-spots/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  25,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/access-movements",
+        "HTTP":  201,
+        "Resultado":  "OK",
+        "Milisegundos":  117,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/access-movements",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  45,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/access-movements/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  27,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "PUT",
+        "Ruta":  "/api/v1/access-movements/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  49,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/access-movements",
+        "HTTP":  201,
+        "Resultado":  "OK",
+        "Milisegundos":  112,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/parking-stays",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  70,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/parking-stays/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  49,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "PUT",
+        "Ruta":  "/api/v1/parking-stays/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  69,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/access-movements",
+        "HTTP":  201,
+        "Resultado":  "OK",
+        "Milisegundos":  49,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/parking-stays/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  12,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/parking-spots/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  28,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/reservations",
+        "HTTP":  201,
+        "Resultado":  "OK",
+        "Milisegundos":  35,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "PUT",
+        "Ruta":  "/api/v1/reservations/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  51,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/reservations",
+        "HTTP":  201,
+        "Resultado":  "OK",
+        "Milisegundos":  35,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/reservations/{id:int}/cancellation",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  34,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/alert-rules",
+        "HTTP":  201,
+        "Resultado":  "OK",
+        "Milisegundos":  88,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/alert-rules",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  8,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/alert-rules/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  22,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "PUT",
+        "Ruta":  "/api/v1/alert-rules/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  34,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/alerts",
+        "HTTP":  201,
+        "Resultado":  "OK",
+        "Milisegundos":  85,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/alerts",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  10,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/alerts/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  26,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "PUT",
+        "Ruta":  "/api/v1/alerts/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  61,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/notification-templates",
+        "HTTP":  201,
+        "Resultado":  "OK",
+        "Milisegundos":  29,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/notification-templates",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  8,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/notification-templates/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  24,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "PUT",
+        "Ruta":  "/api/v1/notification-templates/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  41,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/notifications",
+        "HTTP":  201,
+        "Resultado":  "OK",
+        "Milisegundos":  57,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/notifications",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  22,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/notifications/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  22,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "PUT",
+        "Ruta":  "/api/v1/notifications/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  46,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/occupancy-metrics",
+        "HTTP":  201,
+        "Resultado":  "OK",
+        "Milisegundos":  82,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/occupancy-metrics",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  8,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/occupancy-metrics/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  21,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "PUT",
+        "Ruta":  "/api/v1/occupancy-metrics/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  27,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/reports",
+        "HTTP":  201,
+        "Resultado":  "OK",
+        "Milisegundos":  90,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/reports",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  12,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/reports/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  29,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "PUT",
+        "Ruta":  "/api/v1/reports/{id:int}",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  46,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/sessions",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  6,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/sessions",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  28,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/sessions/refresh",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  22,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/sessions/revoke",
+        "HTTP":  204,
+        "Resultado":  "OK",
+        "Milisegundos":  29,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "POST",
+        "Ruta":  "/api/v1/sessions",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  17,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "GET",
+        "Ruta":  "/api/v1/sessions",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  7,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "DELETE",
+        "Ruta":  "/api/v1/sessions/{id:int}",
+        "HTTP":  204,
+        "Resultado":  "OK",
+        "Milisegundos":  22,
+        "Detalle":  ""
+    },
+    {
+        "Metodo":  "PUT",
+        "Ruta":  "/api/v1/authentication/password",
+        "HTTP":  200,
+        "Resultado":  "OK",
+        "Milisegundos":  325,
+        "Detalle":  ""
+    }
+]

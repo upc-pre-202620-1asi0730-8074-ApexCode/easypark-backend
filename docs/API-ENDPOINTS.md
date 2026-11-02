@@ -1,0 +1,66 @@
+# EasyPark REST — 60 operaciones HTTP
+
+Lista inferida de los atributos de los controladores (no prueba de disponibilidad en ejecución). Todas las rutas están bajo `/api/v1`. Las rutas de salud y Swagger no cuentan entre estas 60.
+
+| # | Método | Ruta | Controlador |
+|---:|---|---|---|
+| 1 | `GET` | `/api/v1/access-movements` | `AccessMovements` |
+| 2 | `GET` | `/api/v1/access-movements/{id:int}` | `AccessMovements` |
+| 3 | `POST` | `/api/v1/access-movements` | `AccessMovements` |
+| 4 | `PUT` | `/api/v1/access-movements/{id:int}` | `AccessMovements` |
+| 5 | `GET` | `/api/v1/parking-stays` | `ParkingStays` |
+| 6 | `GET` | `/api/v1/parking-stays/{id:int}` | `ParkingStays` |
+| 7 | `PUT` | `/api/v1/parking-stays/{id:int}` | `ParkingStays` |
+| 8 | `GET` | `/api/v1/alert-rules` | `AlertRules` |
+| 9 | `GET` | `/api/v1/alert-rules/{id:int}` | `AlertRules` |
+| 10 | `POST` | `/api/v1/alert-rules` | `AlertRules` |
+| 11 | `PUT` | `/api/v1/alert-rules/{id:int}` | `AlertRules` |
+| 12 | `GET` | `/api/v1/alerts` | `Alerts` |
+| 13 | `GET` | `/api/v1/alerts/{id:int}` | `Alerts` |
+| 14 | `POST` | `/api/v1/alerts` | `Alerts` |
+| 15 | `PUT` | `/api/v1/alerts/{id:int}` | `Alerts` |
+| 16 | `GET` | `/api/v1/notification-templates` | `NotificationTemplates` |
+| 17 | `GET` | `/api/v1/notification-templates/{id:int}` | `NotificationTemplates` |
+| 18 | `POST` | `/api/v1/notification-templates` | `NotificationTemplates` |
+| 19 | `PUT` | `/api/v1/notification-templates/{id:int}` | `NotificationTemplates` |
+| 20 | `GET` | `/api/v1/notifications` | `Notifications` |
+| 21 | `GET` | `/api/v1/notifications/{id:int}` | `Notifications` |
+| 22 | `POST` | `/api/v1/notifications` | `Notifications` |
+| 23 | `PUT` | `/api/v1/notifications/{id:int}` | `Notifications` |
+| 24 | `GET` | `/api/v1/occupancy-metrics` | `OccupancyMetrics` |
+| 25 | `GET` | `/api/v1/occupancy-metrics/{id:int}` | `OccupancyMetrics` |
+| 26 | `POST` | `/api/v1/occupancy-metrics` | `OccupancyMetrics` |
+| 27 | `PUT` | `/api/v1/occupancy-metrics/{id:int}` | `OccupancyMetrics` |
+| 28 | `GET` | `/api/v1/reports` | `Reports` |
+| 29 | `GET` | `/api/v1/reports/{id:int}` | `Reports` |
+| 30 | `POST` | `/api/v1/reports` | `Reports` |
+| 31 | `PUT` | `/api/v1/reports/{id:int}` | `Reports` |
+| 32 | `POST` | `/api/v1/sessions` | `Sessions` |
+| 33 | `POST` | `/api/v1/sessions/refresh` | `Sessions` |
+| 34 | `POST` | `/api/v1/sessions/revoke` | `Sessions` |
+| 35 | `GET` | `/api/v1/sessions` | `Sessions` |
+| 36 | `DELETE` | `/api/v1/sessions/{id:int}` | `Sessions` |
+| 37 | `POST` | `/api/v1/authentication/sign-up` | `Authentication` |
+| 38 | `POST` | `/api/v1/authentication/sign-in` | `Authentication` |
+| 39 | `PUT` | `/api/v1/authentication/password` | `Authentication` |
+| 40 | `GET` | `/api/v1/parking-facilities` | `ParkingFacilities` |
+| 41 | `GET` | `/api/v1/parking-facilities/{id:int}` | `ParkingFacilities` |
+| 42 | `POST` | `/api/v1/parking-facilities` | `ParkingFacilities` |
+| 43 | `PUT` | `/api/v1/parking-facilities/{id:int}` | `ParkingFacilities` |
+| 44 | `GET` | `/api/v1/parking-spots` | `ParkingSpots` |
+| 45 | `GET` | `/api/v1/parking-spots/{id:int}` | `ParkingSpots` |
+| 46 | `POST` | `/api/v1/parking-spots` | `ParkingSpots` |
+| 47 | `PUT` | `/api/v1/parking-spots/{id:int}` | `ParkingSpots` |
+| 48 | `GET` | `/api/v1/profiles` | `Profiles` |
+| 49 | `GET` | `/api/v1/profiles/{id:int}` | `Profiles` |
+| 50 | `POST` | `/api/v1/profiles` | `Profiles` |
+| 51 | `PUT` | `/api/v1/profiles/{id:int}` | `Profiles` |
+| 52 | `GET` | `/api/v1/vehicles` | `Vehicles` |
+| 53 | `GET` | `/api/v1/vehicles/{id:int}` | `Vehicles` |
+| 54 | `POST` | `/api/v1/vehicles` | `Vehicles` |
+| 55 | `PUT` | `/api/v1/vehicles/{id:int}` | `Vehicles` |
+| 56 | `GET` | `/api/v1/reservations` | `Reservations` |
+| 57 | `GET` | `/api/v1/reservations/{id:int}` | `Reservations` |
+| 58 | `POST` | `/api/v1/reservations` | `Reservations` |
+| 59 | `PUT` | `/api/v1/reservations/{id:int}` | `Reservations` |
+| 60 | `POST` | `/api/v1/reservations/{id:int}/cancellation` | `Reservations` |

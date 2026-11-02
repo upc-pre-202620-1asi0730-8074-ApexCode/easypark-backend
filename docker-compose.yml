@@ -1,0 +1,41 @@
+services:
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Set MYSQL_ROOT_PASSWORD in .env}
+      MYSQL_DATABASE: easypark
+      MYSQL_USER: easypark
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Set MYSQL_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:3307:3306"
+    volumes:
+      - easypark_mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "MYSQL_PWD=$$MYSQL_PASSWORD mysqladmin ping -h localhost -u easypark --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:8080:8080"
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_HTTP_PORTS: "8080"
+      ConnectionStrings__DefaultConnection: "Server=mysql;Port=3306;Database=easypark;User=easypark;Password=${MYSQL_PASSWORD};SslMode=Disabled;"
+      TokenSettings__Secret: ${JWT_SECRET:?Set JWT_SECRET in .env}
+      TokenSettings__Issuer: EasyPark.Platform
+      TokenSettings__Audience: EasyPark.WebApplication
+      Cors__AllowedOrigins: "http://localhost:5173,http://127.0.0.1:5173"
+      Database__Migrate: "true"
+      SeedDemoData: "false"
+      ExtendedFeatures__AlertWorkerEnabled: "false"
+volumes:
+  easypark_mysql:
