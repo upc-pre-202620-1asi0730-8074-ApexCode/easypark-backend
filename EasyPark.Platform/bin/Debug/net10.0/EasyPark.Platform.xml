@@ -1,0 +1,838 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EasyPark.Platform</name>
+    </assembly>
+    <members>
+        <member name="T:EasyPark.Platform.AccessControl.Application.CommandServices.AccessRegistrationResult">
+            <summary>Result of registering an access: the movement and, for a completed entry or exit, the stay.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.AccessControl.Application.CommandServices.AccessRegistrationResult.#ctor(EasyPark.Platform.AccessControl.Domain.Model.Aggregates.AccessMovement,EasyPark.Platform.AccessControl.Domain.Model.Aggregates.ParkingStay)">
+            <summary>Result of registering an access: the movement and, for a completed entry or exit, the stay.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.AccessControl.Application.Internal.CommandServices.AccessControlCommandService">
+            <summary>
+                Gate use cases. Entry: requires an owned vehicle without an open stay and a CONFIRMED reservation in the
+                facility; opens a stay, occupies the spot and activates the reservation. Exit: closes the open stay, charges
+                the time, frees the spot and completes the reservation. Everything runs in one database transaction.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.AccessControl.Application.Internal.CommandServices.AccessControlCommandService.#ctor(EasyPark.Platform.AccessControl.Domain.Repositories.IAccessMovementRepository,EasyPark.Platform.AccessControl.Domain.Repositories.IParkingStayRepository,EasyPark.Platform.Profiles.Interfaces.ACL.IProfilesContextFacade,EasyPark.Platform.ParkingManagement.Interfaces.ACL.IParkingManagementContextFacade,EasyPark.Platform.Reservations.Interfaces.ACL.IReservationsContextFacade,EasyPark.Platform.Shared.Domain.Repositories.IUnitOfWork)">
+            <summary>
+                Gate use cases. Entry: requires an owned vehicle without an open stay and a CONFIRMED reservation in the
+                facility; opens a stay, occupies the spot and activates the reservation. Exit: closes the open stay, charges
+                the time, frees the spot and completes the reservation. Everything runs in one database transaction.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.AccessControl.Application.Internal.CommandServices.AccessControlCommandService.SelectSpotForEntryAsync(EasyPark.Platform.AccessControl.Application.Internal.CommandServices.AccessControlCommandService.GateContext,EasyPark.Platform.Reservations.Interfaces.ACL.ReservationSnapshot,System.Threading.CancellationToken)">
+            <summary>The reserved spot when it can still be used; otherwise the first AVAILABLE spot of the vehicle type.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.AccessControl.Application.Internal.QueryServices.AccessControlQueryService.ManagedFacilityIdsAsync(System.Int32,System.Nullable{System.Int32},System.Threading.CancellationToken)">
+            <summary>Facilities of the operator, optionally restricted to one of them.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.AccessControl.Domain.Model.Aggregates.AccessMovement">
+            <summary>
+                Entry or exit attempt registered at a facility gate. Rejected attempts are also stored (audit trail).
+                The plate read at the gate is kept as a snapshot.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.AccessControl.Domain.Model.Aggregates.AccessMovement.#ctor">
+            <summary>Constructor required by Entity Framework Core.</summary>
+        </member>
+        <member name="P:EasyPark.Platform.AccessControl.Domain.Model.Aggregates.AccessMovement.OperatorId">
+            <summary>User account id of the operator who registered the movement.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.AccessControl.Domain.Model.Aggregates.AccessMovement.RejectReview(System.String)">
+            <summary>The operator closes a review by rejecting the movement.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.AccessControl.Domain.Model.Aggregates.ParkingStay">
+            <summary>
+                Time a vehicle remains in a spot, from its entry movement to its exit movement.
+                The charged amount is calculated when the stay is closed.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.AccessControl.Domain.Model.Aggregates.ParkingStay.#ctor">
+            <summary>Constructor required by Entity Framework Core.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.AccessControl.Domain.Model.Commands.RegisterAccessCommand">
+            <summary>
+                Registers an entry or exit at a facility. The vehicle is identified by its plate (or id). The outcome is
+                a movement COMPLETED, REJECTED or UNDER_REVIEW; the rules are applied by the server in one transaction.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.AccessControl.Domain.Model.Commands.RegisterAccessCommand.#ctor(System.Int32,System.Nullable{System.Int32},System.String,System.Nullable{System.Int32},System.String,System.String,System.String)">
+            <summary>
+                Registers an entry or exit at a facility. The vehicle is identified by its plate (or id). The outcome is
+                a movement COMPLETED, REJECTED or UNDER_REVIEW; the rules are applied by the server in one transaction.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.AccessControl.Domain.Model.ValueObjects.MovementType">
+            <summary>Contract codes: ENTRY, EXIT.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.AccessControl.Domain.Model.ValueObjects.RegistrationMethod">
+            <summary>Contract codes: QR_CODE, MANUAL, IOT_SENSOR.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.AccessControl.Domain.Model.ValueObjects.MovementStatus">
+            <summary>Contract codes: IN_PROGRESS, COMPLETED, UNDER_REVIEW, REJECTED.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.AccessControl.Domain.Model.ValueObjects.AccessRejectionReasons">
+            <summary>
+                Reasons stored in <c>note</c> when a movement is rejected or sent to review. The Web Application
+                translates them (access-control.errors.*).
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.AccessControl.Interfaces.ACL.IAccessControlContextFacade">
+            <summary>Anti-corruption layer exposed by Access Control to the other bounded contexts.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.AccessControl.Interfaces.REST.AccessMovementsController">
+            <summary>Entries and exits registered at the gates of the operator's facilities.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.AccessControl.Interfaces.REST.AccessMovementsController.#ctor(EasyPark.Platform.AccessControl.Application.CommandServices.IAccessControlCommandService,EasyPark.Platform.AccessControl.Application.QueryServices.IAccessControlQueryService)">
+            <summary>Entries and exits registered at the gates of the operator's facilities.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.AccessControl.Interfaces.REST.AccessMovementsController.RegisterAccess(EasyPark.Platform.AccessControl.Interfaces.REST.Resources.RegisterAccessResource,System.Threading.CancellationToken)">
+            <summary>
+                Registers an entry or exit by plate. Always returns 201 with the stored movement; check
+                <c>status</c>: COMPLETED (allowed), REJECTED or UNDER_REVIEW (see <c>note</c>).
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.AccessControl.Interfaces.REST.AccessMovementsController.UpdateMovement(System.Int32,EasyPark.Platform.AccessControl.Interfaces.REST.Resources.UpdateAccessMovementResource,System.Threading.CancellationToken)">
+            <summary>Closes a movement UNDER_REVIEW with status REJECTED.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.AccessControl.Interfaces.REST.ParkingStaysController">
+            <summary>Parking stays (vehicles inside the operator's facilities).</summary>
+        </member>
+        <member name="M:EasyPark.Platform.AccessControl.Interfaces.REST.ParkingStaysController.#ctor(EasyPark.Platform.AccessControl.Application.CommandServices.IAccessControlCommandService,EasyPark.Platform.AccessControl.Application.QueryServices.IAccessControlQueryService)">
+            <summary>Parking stays (vehicles inside the operator's facilities).</summary>
+        </member>
+        <member name="M:EasyPark.Platform.AccessControl.Interfaces.REST.ParkingStaysController.UpdateStay(System.Int32,EasyPark.Platform.AccessControl.Interfaces.REST.Resources.UpdateParkingStayResource,System.Threading.CancellationToken)">
+            <summary>Reassigns an open stay to another AVAILABLE spot of the same facility.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.AccessControl.Interfaces.REST.Resources.AccessMovementResource">
+            <summary>
+                Access movement. When <c>status</c> is REJECTED or UNDER_REVIEW, <c>note</c> contains the reason code
+                (vehicle-under-review, vehicle-already-inside, no-active-reservation, no-availability, no-active-stay).
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.AccessControl.Interfaces.REST.Resources.AccessMovementResource.#ctor(System.Int32,System.Int32,System.Int32,System.String,System.Int32,System.String,System.String,System.String,System.DateTime,System.String,System.Nullable{System.Int32})">
+            <summary>
+                Access movement. When <c>status</c> is REJECTED or UNDER_REVIEW, <c>note</c> contains the reason code
+                (vehicle-under-review, vehicle-already-inside, no-active-reservation, no-availability, no-active-stay).
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.AccessControl.Interfaces.REST.Resources.RegisterAccessResource">
+            <summary>Body of POST /api/v1/access-movements (register an entry or an exit at the gate).</summary>
+        </member>
+        <member name="M:EasyPark.Platform.AccessControl.Interfaces.REST.Resources.RegisterAccessResource.#ctor(System.Nullable{System.Int32},System.String,System.Nullable{System.Int32},System.String,System.String,System.String)">
+            <summary>Body of POST /api/v1/access-movements (register an entry or an exit at the gate).</summary>
+        </member>
+        <member name="T:EasyPark.Platform.AccessControl.Interfaces.REST.Resources.UpdateAccessMovementResource">
+            <summary>Body of PUT /api/v1/access-movements/{id}: closes a review with status REJECTED.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.AccessControl.Interfaces.REST.Resources.UpdateAccessMovementResource.#ctor(System.String,System.String)">
+            <summary>Body of PUT /api/v1/access-movements/{id}: closes a review with status REJECTED.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.AccessControl.Interfaces.REST.Resources.UpdateParkingStayResource">
+            <summary>Body of PUT /api/v1/parking-stays/{id}: moves an open stay to another AVAILABLE spot.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.AccessControl.Interfaces.REST.Resources.UpdateParkingStayResource.#ctor(System.Nullable{System.Int32})">
+            <summary>Body of PUT /api/v1/parking-stays/{id}: moves an open stay to another AVAILABLE spot.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.ExtendedFeatures.Application.ExtendedAccess">
+            <summary>Authorization boundary shared by the new contexts. Data is always scoped to the operator's facilities.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.ExtendedFeatures.Application.ExtendedAccess.#ctor(EasyPark.Platform.Shared.Infrastructure.Persistence.EFC.Configuration.AppDbContext)">
+            <summary>Authorization boundary shared by the new contexts. Data is always scoped to the operator's facilities.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.ExtendedFeatures.Application.SessionsService">
+            <summary>Opaque, rotating refresh tokens: only their SHA-256 hashes are stored in MySQL.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.ExtendedFeatures.Application.SessionsService.#ctor(EasyPark.Platform.Shared.Infrastructure.Persistence.EFC.Configuration.AppDbContext,EasyPark.Platform.Iam.Application.Internal.OutboundServices.ITokenService)">
+            <summary>Opaque, rotating refresh tokens: only their SHA-256 hashes are stored in MySQL.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.ExtendedFeatures.Domain.Model.AlertRule">
+            <summary>Business objects belonging to the three additional contexts and the IAM session store.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.ExtendedFeatures.Infrastructure.Persistence.EFC.Seeding.ExtendedFeaturesSeeder">
+            <summary>Non-sensitive templates required for notifications. Idempotent; safe to seed in all environments.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.ExtendedFeatures.Interfaces.REST.SessionsController">
+            <summary>Session renewal, revocation and device/session listing.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.ExtendedFeatures.Interfaces.REST.SessionsController.#ctor(EasyPark.Platform.ExtendedFeatures.Application.SessionsService)">
+            <summary>Session renewal, revocation and device/session listing.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.Iam.Domain.Model.Aggregates.UserAccount">
+            <summary>
+                User account aggregate root of the IAM bounded context.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Iam.Domain.Model.Aggregates.UserAccount.#ctor">
+            <summary>Constructor required by Entity Framework Core.</summary>
+        </member>
+        <member name="P:EasyPark.Platform.Iam.Domain.Model.Aggregates.UserAccount.Email">
+            <summary>Normalized e-mail (validated through the <see cref="T:EasyPark.Platform.Iam.Domain.Model.ValueObjects.EmailAddress" /> value object).</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Iam.Domain.Model.Aggregates.UserAccount.EnsurePasswordPolicy(System.String,System.String)">
+            <summary>
+                Validates a plain-text password before hashing it.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Iam.Domain.Model.ValueObjects.AccountStatus">
+            <summary>
+                Contract codes: ACTIVE, INACTIVE.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Iam.Domain.Model.ValueObjects.EmailAddress">
+            <summary>
+                E-mail address normalized to lower case. Same validation rule used by the Web Application.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Iam.Domain.Model.ValueObjects.EmailAddress.FromDatabase(System.String)">
+            <summary>
+                Used only by the persistence layer to rebuild a value that was already validated.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Iam.Domain.Model.ValueObjects.UserRole">
+            <summary>
+                Roles of the platform. Contract codes: DRIVER, OPERATOR_ADMIN, OPERATOR_STAFF.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Iam.Infrastructure.Hashing.BCrypt.Services.HashingService">
+            <summary>
+                BCrypt password hashing (work factor 11). Plain-text passwords are never stored.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Iam.Infrastructure.Tokens.Jwt.Configuration.TokenSettings">
+            <summary>
+                JWT settings bound from the <c>TokenSettings</c> section. In production the secret must come from the
+                environment variable <c>TokenSettings__Secret</c> (never from a committed file).
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Iam.Infrastructure.Tokens.Jwt.Services.TokenService">
+            <summary>
+                Issues HS256 JSON Web Tokens with the claims <c>sub</c> (user account id), <c>email</c> and <c>role</c>.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Iam.Infrastructure.Tokens.Jwt.Services.TokenService.#ctor(Microsoft.Extensions.Options.IOptions{EasyPark.Platform.Iam.Infrastructure.Tokens.Jwt.Configuration.TokenSettings})">
+            <summary>
+                Issues HS256 JSON Web Tokens with the claims <c>sub</c> (user account id), <c>email</c> and <c>role</c>.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Iam.Interfaces.REST.AuthenticationController">
+            <summary>
+                Identity and Access Management endpoints: sign-up, sign-in and password change.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Iam.Interfaces.REST.AuthenticationController.#ctor(EasyPark.Platform.Iam.Application.CommandServices.IUserAccountCommandService,EasyPark.Platform.ExtendedFeatures.Application.SessionsService)">
+            <summary>
+                Identity and Access Management endpoints: sign-up, sign-in and password change.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Iam.Interfaces.REST.AuthenticationController.SignUp(EasyPark.Platform.Iam.Interfaces.REST.Resources.SignUpResource,System.Threading.CancellationToken)">
+            <summary>Registers a DRIVER or OPERATOR_ADMIN account. Returns 201, 400 (invalid data) or 409 (e-mail taken).</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Iam.Interfaces.REST.AuthenticationController.SignIn(EasyPark.Platform.Iam.Interfaces.REST.Resources.SignInResource,System.Threading.CancellationToken)">
+            <summary>Validates the credentials and returns a JWT. Returns 200, 401 (invalid credentials) or 403 (inactive).</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Iam.Interfaces.REST.AuthenticationController.ChangePassword(EasyPark.Platform.Iam.Interfaces.REST.Resources.ChangePasswordResource,System.Threading.CancellationToken)">
+            <summary>Changes the password of the authenticated account. Returns 200, 400, 401 or 422 (wrong current password).</summary>
+        </member>
+        <member name="T:EasyPark.Platform.Iam.Interfaces.REST.Resources.SignUpResource">
+            <summary>Body of POST /api/v1/authentication/sign-up.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Iam.Interfaces.REST.Resources.SignUpResource.#ctor(System.String,System.String,System.String)">
+            <summary>Body of POST /api/v1/authentication/sign-up.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.Iam.Interfaces.REST.Resources.SignInResource">
+            <summary>Body of POST /api/v1/authentication/sign-in.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Iam.Interfaces.REST.Resources.SignInResource.#ctor(System.String,System.String)">
+            <summary>Body of POST /api/v1/authentication/sign-in.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.Iam.Interfaces.REST.Resources.ChangePasswordResource">
+            <summary>Body of PUT /api/v1/authentication/password.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Iam.Interfaces.REST.Resources.ChangePasswordResource.#ctor(System.String,System.String)">
+            <summary>Body of PUT /api/v1/authentication/password.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.Iam.Interfaces.REST.Resources.UserAccountResource">
+            <summary>Response of a successful sign-up.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Iam.Interfaces.REST.Resources.UserAccountResource.#ctor(System.Int32,System.String,System.String)">
+            <summary>Response of a successful sign-up.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.Iam.Interfaces.REST.Resources.AuthenticatedUserAccountResource">
+            <summary>Response of a successful sign-in. <c>token</c> is the JWT to send as <c>Authorization: Bearer</c>.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Iam.Interfaces.REST.Resources.AuthenticatedUserAccountResource.#ctor(System.Int32,System.String,System.String,System.String,System.String)">
+            <summary>Response of a successful sign-in. <c>token</c> is the JWT to send as <c>Authorization: Bearer</c>.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.Iam.Interfaces.REST.Resources.MessageResource">
+            <summary>Generic message response.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Iam.Interfaces.REST.Resources.MessageResource.#ctor(System.String)">
+            <summary>Generic message response.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.ParkingManagement.Application.Internal.CommandServices.ParkingSpotCommandService">
+            <summary>
+                Spot use cases. Manual status changes made by the operator are validated against open parking stays
+                (Access Control) and pending reservations (Reservations) to keep the three contexts consistent.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.ParkingManagement.Application.Internal.CommandServices.ParkingSpotCommandService.#ctor(EasyPark.Platform.ParkingManagement.Domain.Repositories.IParkingSpotRepository,EasyPark.Platform.ParkingManagement.Domain.Repositories.IParkingFacilityRepository,EasyPark.Platform.Profiles.Interfaces.ACL.IProfilesContextFacade,EasyPark.Platform.AccessControl.Interfaces.ACL.IAccessControlContextFacade,EasyPark.Platform.Reservations.Interfaces.ACL.IReservationsContextFacade,EasyPark.Platform.Shared.Domain.Repositories.IUnitOfWork)">
+            <summary>
+                Spot use cases. Manual status changes made by the operator are validated against open parking stays
+                (Access Control) and pending reservations (Reservations) to keep the three contexts consistent.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.ParkingManagement.Application.Internal.QueryServices.ParkingSpotQueryService.VisibleFacilityIdsAsync(System.Int32,System.Boolean,System.Threading.CancellationToken)">
+            <summary>Operators see the spots of their facilities; drivers see the spots of ACTIVE facilities.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.ParkingManagement.Application.QueryServices.ParkingFacilityOverview">
+            <summary>Facility together with its live availability.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.ParkingManagement.Application.QueryServices.ParkingFacilityOverview.#ctor(EasyPark.Platform.ParkingManagement.Domain.Model.Aggregates.ParkingFacility,System.Int32,System.Int32,System.Nullable{System.Double})">
+            <summary>Facility together with its live availability.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.ParkingManagement.Domain.Model.Aggregates.ParkingFacility">
+            <summary>
+                Parking facility managed by an operator profile: location, hourly rate, opening hours and status.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.ParkingManagement.Domain.Model.Aggregates.ParkingFacility.#ctor">
+            <summary>Constructor required by Entity Framework Core.</summary>
+        </member>
+        <member name="P:EasyPark.Platform.ParkingManagement.Domain.Model.Aggregates.ParkingFacility.OpenTime">
+            <summary>Opening time in HH:mm format.</summary>
+        </member>
+        <member name="P:EasyPark.Platform.ParkingManagement.Domain.Model.Aggregates.ParkingFacility.CloseTime">
+            <summary>Closing time in HH:mm format.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.ParkingManagement.Domain.Model.Aggregates.ParkingFacility.DistanceInKilometresTo(System.Double,System.Double)">
+            <summary>Great-circle distance in kilometres, or null when the facility has no coordinates.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.ParkingManagement.Domain.Model.Aggregates.ParkingSpot">
+            <summary>
+                Parking spot of a facility. Status transitions are guarded here; <see cref="P:EasyPark.Platform.ParkingManagement.Domain.Model.Aggregates.ParkingSpot.Version" /> is an optimistic
+                concurrency token, so two requests cannot reserve or occupy the same spot at the same time.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.ParkingManagement.Domain.Model.Aggregates.ParkingSpot.#ctor">
+            <summary>Constructor required by Entity Framework Core.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.ParkingManagement.Domain.Model.Aggregates.ParkingSpot.Reserve">
+            <summary>A reservation holds the spot.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.ParkingManagement.Domain.Model.Aggregates.ParkingSpot.Occupy">
+            <summary>A vehicle parks in the spot (from AVAILABLE or from its own reservation).</summary>
+        </member>
+        <member name="M:EasyPark.Platform.ParkingManagement.Domain.Model.Aggregates.ParkingSpot.Release">
+            <summary>The vehicle leaves or the reservation ends.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.ParkingManagement.Domain.Model.Queries.SearchParkingFacilitiesQuery">
+            <summary>
+                Facility search. Operators see their own facilities; drivers see ACTIVE facilities and can filter by
+                text, maximum hourly rate and availability, and sort by distance when coordinates are given.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.ParkingManagement.Domain.Model.Queries.SearchParkingFacilitiesQuery.#ctor(System.Int32,System.Boolean,System.Nullable{System.Int32},System.String,System.Nullable{System.Decimal},System.Boolean,System.Nullable{System.Double},System.Nullable{System.Double})">
+            <summary>
+                Facility search. Operators see their own facilities; drivers see ACTIVE facilities and can filter by
+                text, maximum hourly rate and availability, and sort by distance when coordinates are given.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.ParkingManagement.Domain.Model.ValueObjects.FacilityStatus">
+            <summary>Contract codes: ACTIVE, INACTIVE, MAINTENANCE.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.ParkingManagement.Domain.Model.ValueObjects.SpotType">
+            <summary>Contract codes: CAR, SUV, VAN, MOTORCYCLE (same codes as the vehicle types).</summary>
+        </member>
+        <member name="T:EasyPark.Platform.ParkingManagement.Domain.Model.ValueObjects.SpotStatus">
+            <summary>Contract codes: AVAILABLE, OCCUPIED, RESERVED, OUT_OF_SERVICE.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.ParkingManagement.Interfaces.ACL.IParkingManagementContextFacade">
+            <summary>
+                Anti-corruption layer exposed by Parking Management. Status-changing methods only modify the tracked
+                spot; the calling use case saves the unit of work so the whole operation is atomic.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.ParkingManagement.Interfaces.ACL.IParkingManagementContextFacade.ReleaseSpotAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>Frees an OCCUPIED or RESERVED spot.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.ParkingManagement.Interfaces.ACL.IParkingManagementContextFacade.ReleaseReservedSpotAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>Frees the spot only when it is RESERVED.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.ParkingManagement.Interfaces.REST.ParkingFacilitiesController">
+            <summary>Parking facilities: search, detail, rate, location and management.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.ParkingManagement.Interfaces.REST.ParkingFacilitiesController.#ctor(EasyPark.Platform.ParkingManagement.Application.CommandServices.IParkingFacilityCommandService,EasyPark.Platform.ParkingManagement.Application.QueryServices.IParkingFacilityQueryService)">
+            <summary>Parking facilities: search, detail, rate, location and management.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.ParkingManagement.Interfaces.REST.ParkingFacilitiesController.GetFacilities(System.Nullable{System.Int32},System.String,System.Nullable{System.Decimal},System.Nullable{System.Boolean},System.Nullable{System.Double},System.Nullable{System.Double},System.Threading.CancellationToken)">
+            <summary>
+                Operators: their facilities. Drivers: ACTIVE facilities. Optional filters: <c>q</c> (name/address),
+                <c>maxHourlyRate</c>, <c>onlyAvailable=true</c>, and <c>latitude</c>+<c>longitude</c> to sort by distance.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.ParkingManagement.Interfaces.REST.ParkingSpotsController">
+            <summary>Parking spots of a facility and their status.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.ParkingManagement.Interfaces.REST.ParkingSpotsController.#ctor(EasyPark.Platform.ParkingManagement.Application.CommandServices.IParkingSpotCommandService,EasyPark.Platform.ParkingManagement.Application.QueryServices.IParkingSpotQueryService)">
+            <summary>Parking spots of a facility and their status.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.ParkingManagement.Interfaces.REST.Resources.ParkingFacilityResource">
+            <summary>Parking facility. <c>totalSpots</c> and <c>availableSpots</c> are calculated live.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.ParkingManagement.Interfaces.REST.Resources.ParkingFacilityResource.#ctor(System.Int32,System.Int32,System.String,System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Decimal,System.String,System.String,System.String,System.DateTime,System.Int32,System.Int32,System.Nullable{System.Double})">
+            <summary>Parking facility. <c>totalSpots</c> and <c>availableSpots</c> are calculated live.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.ParkingManagement.Interfaces.REST.Resources.UpdateParkingSpotResource">
+            <summary>
+                Body of PUT /api/v1/parking-spots/{id}. <c>status</c> accepts manual operator changes
+                (AVAILABLE, OCCUPIED, OUT_OF_SERVICE); RESERVED is managed by reservations.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.ParkingManagement.Interfaces.REST.Resources.UpdateParkingSpotResource.#ctor(System.String,System.Nullable{System.Int32},System.String,System.String)">
+            <summary>
+                Body of PUT /api/v1/parking-spots/{id}. <c>status</c> accepts manual operator changes
+                (AVAILABLE, OCCUPIED, OUT_OF_SERVICE); RESERVED is managed by reservations.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Profiles.Application.Internal.CommandServices.VehicleCommandService">
+            <summary>
+                Vehicle use cases. A driver registers vehicles on their own profile (or claims an unowned plate);
+                operators can only create unowned vehicles (plates read at the gate).
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Profiles.Application.Internal.CommandServices.VehicleCommandService.#ctor(EasyPark.Platform.Profiles.Domain.Repositories.IVehicleRepository,EasyPark.Platform.Profiles.Domain.Repositories.IProfileRepository,EasyPark.Platform.Shared.Domain.Repositories.IUnitOfWork)">
+            <summary>
+                Vehicle use cases. A driver registers vehicles on their own profile (or claims an unowned plate);
+                operators can only create unowned vehicles (plates read at the gate).
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Profiles.Domain.Model.Aggregates.Profile">
+            <summary>
+                Personal profile of a user account (driver or parking operator). One profile per user account.
+                Company name and job title only apply to operator profiles.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Profiles.Domain.Model.Aggregates.Profile.#ctor">
+            <summary>Constructor required by Entity Framework Core.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.Profiles.Domain.Model.Aggregates.Vehicle">
+            <summary>
+                Vehicle identified by its plate. A vehicle can exist without owner when its plate was read at a gate
+                before any driver registered it; a driver can later claim it.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Profiles.Domain.Model.Aggregates.Vehicle.#ctor">
+            <summary>Constructor required by Entity Framework Core.</summary>
+        </member>
+        <member name="P:EasyPark.Platform.Profiles.Domain.Model.Aggregates.Vehicle.PlateNumber">
+            <summary>Normalized plate (validated through the <see cref="T:EasyPark.Platform.Profiles.Domain.Model.ValueObjects.PlateNumber" /> value object).</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Profiles.Domain.Model.Aggregates.Vehicle.RegisterUnowned(EasyPark.Platform.Profiles.Domain.Model.ValueObjects.PlateNumber)">
+            <summary>
+                Creates the vehicle of a plate read at a gate. The type is inferred from the plate format.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Profiles.Domain.Model.ValueObjects.PlateNumber">
+            <summary>
+                Peruvian plate number. Accepts "ABC123", "abc-123" (cars) and "1234AB" (motorcycles) and normalizes
+                them to "ABC-123" / "1234-AB". Same rule implemented in the Web Application (plate-number.js).
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Profiles.Domain.Model.ValueObjects.VehicleType">
+            <summary>Contract codes: CAR, SUV, VAN, MOTORCYCLE.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.Profiles.Interfaces.ACL.VehicleSnapshot">
+            <summary>Read model of a vehicle shared with other bounded contexts.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Profiles.Interfaces.ACL.VehicleSnapshot.#ctor(System.Int32,System.Nullable{System.Int32},System.String,System.String)">
+            <summary>Read model of a vehicle shared with other bounded contexts.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.Profiles.Interfaces.ACL.IProfilesContextFacade">
+            <summary>
+                Anti-corruption layer exposed by Profiles and Vehicles to the other bounded contexts.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Profiles.Interfaces.ACL.IProfilesContextFacade.FetchOrRegisterVehicleByPlateAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+                Returns the vehicle of the plate, registering it without owner when it does not exist yet.
+                The new vehicle is saved immediately so that it gets an identifier.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Profiles.Interfaces.REST.ProfilesController">
+            <summary>Profile of the authenticated driver or operator.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Profiles.Interfaces.REST.ProfilesController.#ctor(EasyPark.Platform.Profiles.Application.CommandServices.IProfileCommandService,EasyPark.Platform.Profiles.Application.QueryServices.IProfileQueryService)">
+            <summary>Profile of the authenticated driver or operator.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Profiles.Interfaces.REST.ProfilesController.GetProfiles(System.Nullable{System.Int32},System.Threading.CancellationToken)">
+            <summary>
+                Returns a list with the profile of the authenticated user (empty when it has not been created yet).
+                <c>userAccountId</c>, when present, must be the authenticated user.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Profiles.Interfaces.REST.Resources.CreateProfileResource">
+            <summary>Body of POST /api/v1/profiles. Extra fields sent by the Web Application (id, createdAt) are ignored.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Profiles.Interfaces.REST.Resources.CreateProfileResource.#ctor(System.Nullable{System.Int32},System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>Body of POST /api/v1/profiles. Extra fields sent by the Web Application (id, createdAt) are ignored.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.Profiles.Interfaces.REST.Resources.UpdateProfileResource">
+            <summary>Body of PUT /api/v1/profiles/{id}.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Profiles.Interfaces.REST.Resources.UpdateProfileResource.#ctor(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>Body of PUT /api/v1/profiles/{id}.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.Profiles.Interfaces.REST.Resources.CreateVehicleResource">
+            <summary>Body of POST /api/v1/vehicles.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Profiles.Interfaces.REST.Resources.CreateVehicleResource.#ctor(System.Nullable{System.Int32},System.String,System.String,System.String,System.Boolean)">
+            <summary>Body of POST /api/v1/vehicles.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.Profiles.Interfaces.REST.Resources.UpdateVehicleResource">
+            <summary>Body of PUT /api/v1/vehicles/{id}. A null profileId removes the vehicle from the driver's profile.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Profiles.Interfaces.REST.Resources.UpdateVehicleResource.#ctor(System.Nullable{System.Int32},System.String,System.String,System.String,System.Boolean)">
+            <summary>Body of PUT /api/v1/vehicles/{id}. A null profileId removes the vehicle from the driver's profile.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.Profiles.Interfaces.REST.VehiclesController">
+            <summary>Vehicles and plate numbers.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Profiles.Interfaces.REST.VehiclesController.#ctor(EasyPark.Platform.Profiles.Application.CommandServices.IVehicleCommandService,EasyPark.Platform.Profiles.Application.QueryServices.IVehicleQueryService,EasyPark.Platform.Profiles.Application.QueryServices.IProfileQueryService)">
+            <summary>Vehicles and plate numbers.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Profiles.Interfaces.REST.VehiclesController.GetVehicles(System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
+            <summary>
+                Driver: <c>profileId</c> (own profile) or <c>plateNumber</c>. A plate owned by another driver is not
+                disclosed (empty list). Operator: <c>plateNumber</c> lookup.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Profiles.Interfaces.REST.VehiclesController.CreateVehicle(EasyPark.Platform.Profiles.Interfaces.REST.Resources.CreateVehicleResource,System.Threading.CancellationToken)">
+            <summary>Registers a vehicle. Returns 201, 400 (invalid plate/type) or 409 (plate already registered).</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Reservations.Application.CommandServices.IReservationCommandService.Handle(EasyPark.Platform.Reservations.Domain.Model.Commands.ExpireOverdueReservationsCommand,System.Threading.CancellationToken)">
+            <summary>Expires overdue reservations and frees their spots. Returns how many were expired.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.Reservations.Application.Internal.CommandServices.ReservationCommandService">
+            <summary>
+                Reservation use cases. The spot is reserved in the same unit of work as the reservation and is protected by
+                an optimistic concurrency token, so the same spot cannot be booked twice.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Reservations.Application.Internal.CommandServices.ReservationCommandService.#ctor(EasyPark.Platform.Reservations.Domain.Repositories.IReservationRepository,EasyPark.Platform.Profiles.Interfaces.ACL.IProfilesContextFacade,EasyPark.Platform.ParkingManagement.Interfaces.ACL.IParkingManagementContextFacade,EasyPark.Platform.Shared.Domain.Repositories.IUnitOfWork,Microsoft.Extensions.Logging.ILogger{EasyPark.Platform.Reservations.Application.Internal.CommandServices.ReservationCommandService})">
+            <summary>
+                Reservation use cases. The spot is reserved in the same unit of work as the reservation and is protected by
+                an optimistic concurrency token, so the same spot cannot be booked twice.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Reservations.Domain.Model.Aggregates.Reservation">
+            <summary>
+                Reservation of a parking spot by a driver for a vehicle and a time window.
+                Life cycle: CONFIRMED → ACTIVE (vehicle entered) → COMPLETED (vehicle left);
+                CONFIRMED → CANCELLED (driver) or EXPIRED (window passed without entry).
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Reservations.Domain.Model.Aggregates.Reservation.#ctor">
+            <summary>Constructor required by Entity Framework Core.</summary>
+        </member>
+        <member name="P:EasyPark.Platform.Reservations.Domain.Model.Aggregates.Reservation.IsOpen">
+            <summary>PENDING, CONFIRMED or ACTIVE: the reservation still holds or uses a spot.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.Reservations.Domain.Model.Commands.CreateReservationCommand">
+            <summary>
+                Creates a reservation. When <c>ParkingSpotId</c> is not provided the platform assigns the first available
+                spot of the facility that matches the vehicle type.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Reservations.Domain.Model.Commands.CreateReservationCommand.#ctor(System.Int32,System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.DateTime},System.Nullable{System.Int32})">
+            <summary>
+                Creates a reservation. When <c>ParkingSpotId</c> is not provided the platform assigns the first available
+                spot of the facility that matches the vehicle type.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Reservations.Domain.Model.ValueObjects.ReservationCode">
+            <summary>
+                Human-readable reservation code, for example <c>EP-7K2Q9XHM</c>. It is shown to the driver and typed or
+                scanned at the gate.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Reservations.Domain.Model.ValueObjects.ReservationStatus">
+            <summary>Contract codes: PENDING, CONFIRMED, ACTIVE, COMPLETED, CANCELLED, EXPIRED.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Reservations.Domain.Repositories.IReservationRepository.ListPendingOrConfirmedStartedBeforeAsync(System.DateTime,System.Threading.CancellationToken)">
+            <summary>PENDING or CONFIRMED reservations that started before the given instant.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.Reservations.Infrastructure.BackgroundJobs.ReservationExpirationWorker">
+            <summary>
+                Periodically expires CONFIRMED reservations whose time window ended without an entry and frees their
+                spots. Configuration: <c>Reservations:ExpirationWorkerEnabled</c>, <c>Reservations:ExpirationIntervalSeconds</c>
+                and <c>Reservations:ExpirationGraceMinutes</c>.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Reservations.Infrastructure.BackgroundJobs.ReservationExpirationWorker.#ctor(Microsoft.Extensions.DependencyInjection.IServiceScopeFactory,Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Logging.ILogger{EasyPark.Platform.Reservations.Infrastructure.BackgroundJobs.ReservationExpirationWorker})">
+            <summary>
+                Periodically expires CONFIRMED reservations whose time window ended without an entry and frees their
+                spots. Configuration: <c>Reservations:ExpirationWorkerEnabled</c>, <c>Reservations:ExpirationIntervalSeconds</c>
+                and <c>Reservations:ExpirationGraceMinutes</c>.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Reservations.Interfaces.ACL.ReservationSnapshot">
+            <summary>Read model of a reservation shared with other bounded contexts.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Reservations.Interfaces.ACL.ReservationSnapshot.#ctor(System.Int32,System.String,System.Int32,System.Int32,System.Int32,System.String)">
+            <summary>Read model of a reservation shared with other bounded contexts.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.Reservations.Interfaces.ACL.IReservationsContextFacade">
+            <summary>Anti-corruption layer exposed by Reservations to the other bounded contexts.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Reservations.Interfaces.ACL.IReservationsContextFacade.HasPendingReservationOnSpotAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>Whether a PENDING or CONFIRMED reservation holds the spot.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Reservations.Interfaces.ACL.IReservationsContextFacade.FindReservationForEntryAsync(System.Int32,System.Int32,System.String,System.Threading.CancellationToken)">
+            <summary>The CONFIRMED reservation that allows the vehicle to enter the facility, if any.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Reservations.Interfaces.ACL.IReservationsContextFacade.ActivateReservationAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>Marks the reservation ACTIVE (the vehicle entered). The caller saves the unit of work.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Reservations.Interfaces.ACL.IReservationsContextFacade.CompleteReservationAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>Marks the reservation COMPLETED (the vehicle left). The caller saves the unit of work.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.Reservations.Interfaces.REST.ReservationsController">
+            <summary>Creation, query and cancellation of reservations.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Reservations.Interfaces.REST.ReservationsController.#ctor(EasyPark.Platform.Reservations.Application.CommandServices.IReservationCommandService,EasyPark.Platform.Reservations.Application.QueryServices.IReservationQueryService)">
+            <summary>Creation, query and cancellation of reservations.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Reservations.Interfaces.REST.ReservationsController.GetReservations(System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
+            <summary>Drivers: their reservations. Operators: reservations of their facilities.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Reservations.Interfaces.REST.ReservationsController.CreateReservation(EasyPark.Platform.Reservations.Interfaces.REST.Resources.CreateReservationResource,System.Threading.CancellationToken)">
+            <summary>Creates a CONFIRMED reservation and reserves the spot. 409 <c>no-availability</c> when there is no spot.</summary>
+        </member>
+        <member name="M:EasyPark.Platform.Reservations.Interfaces.REST.ReservationsController.UpdateReservation(System.Int32,EasyPark.Platform.Reservations.Interfaces.REST.Resources.UpdateReservationResource,System.Threading.CancellationToken)">
+            <summary>
+                Cancels the reservation when <c>status</c> is CANCELLED and frees the spot. Sending the current status
+                again is accepted (idempotent); any other change returns 409.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Reservations.Interfaces.REST.ReservationsController.CancelReservation(System.Int32,System.Threading.CancellationToken)">
+            <summary>Explicit cancellation endpoint (equivalent to PUT with status CANCELLED).</summary>
+        </member>
+        <member name="T:EasyPark.Platform.Reservations.Interfaces.REST.Resources.CreateReservationResource">
+            <summary>
+                Body of POST /api/v1/reservations. Send <c>parkingFacilityId</c> to let the platform assign a compatible spot,
+                or <c>parkingSpotId</c> to request a specific one. Amount, code and status are calculated by the server.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Reservations.Interfaces.REST.Resources.CreateReservationResource.#ctor(System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.DateTime},System.Nullable{System.Int32})">
+            <summary>
+                Body of POST /api/v1/reservations. Send <c>parkingFacilityId</c> to let the platform assign a compatible spot,
+                or <c>parkingSpotId</c> to request a specific one. Amount, code and status are calculated by the server.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Reservations.Interfaces.REST.Resources.UpdateReservationResource">
+            <summary>
+                Body of PUT /api/v1/reservations/{id}. The only status change a client can request is CANCELLED; the
+                other transitions are performed by access control and the expiration process.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Reservations.Interfaces.REST.Resources.UpdateReservationResource.#ctor(System.String)">
+            <summary>
+                Body of PUT /api/v1/reservations/{id}. The only status change a client can request is CANCELLED; the
+                other transitions are performed by access control and the expiration process.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Shared.Domain.Model.EnumCodes">
+            <summary>
+                Converts C# enum members (PascalCase) to the codes used by the REST contract and the
+                database (UPPER_SNAKE_CASE), for example <c>OperatorAdmin</c> to <c>OPERATOR_ADMIN</c>.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Shared.Domain.Model.EnumCodes.Parse``1(System.String,System.String,System.String)">
+            <summary>
+                Parses a code received from a client. Throws a <see cref="T:EasyPark.Platform.Shared.Domain.Model.Exceptions.DomainException" /> (400) when it is not valid.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Shared.Domain.Model.EnumCodes.FromDatabase``1(System.String)">
+            <summary>
+                Parses a code stored in the database. Used by EF Core value converters.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Shared.Domain.Model.Exceptions.DomainErrorKind">
+            <summary>
+                Kinds of business errors. Each kind is translated to an HTTP status code by the
+                error handling middleware of the Interfaces layer.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Shared.Domain.Model.Exceptions.DomainException">
+            <summary>
+                Exception raised when a business rule or an invariant of the domain is violated.
+                <see cref="P:EasyPark.Platform.Shared.Domain.Model.Exceptions.DomainException.Code" /> is a stable, kebab-case identifier that the Web Application uses
+                to show a translated message (for example <c>no-availability</c>).
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Shared.Domain.Model.Guard">
+            <summary>
+                Small helpers used by aggregates to validate their invariants.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Shared.Domain.Repositories.IBaseRepository`1">
+            <summary>
+                Base repository contract shared by every aggregate (same pattern as the FruitLogix reference).
+            </summary>
+            <typeparam name="TEntity">The aggregate type.</typeparam>
+        </member>
+        <member name="T:EasyPark.Platform.Shared.Domain.Repositories.IUnitOfWork">
+            <summary>
+                Unit of work: commits the changes tracked by the repositories of a request.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Shared.Domain.Repositories.IUnitOfWork.ExecuteInTransactionAsync``1(System.Func{System.Threading.Tasks.Task{``0}},System.Threading.CancellationToken)">
+            <summary>
+                Runs an operation inside a database transaction. If the operation throws, every change is rolled back.
+                Use it when a use case needs intermediate saves (for example to obtain a generated identifier).
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Shared.Infrastructure.Interfaces.ASP.Configuration.ApiDocumentationPage">
+            <summary>
+                Optional Scalar API reference page (loaded from the jsDelivr CDN) that reads the same OpenAPI document
+                used by Swagger UI. No extra NuGet package is required.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Shared.Infrastructure.Interfaces.ASP.Configuration.Extensions.StringExtensions.ToKebabCase(System.String)">
+            <summary>
+                "ParkingFacilities" becomes "parking-facilities".
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Shared.Infrastructure.Interfaces.ASP.Configuration.Extensions.StringExtensions.KebabRegex">
+            <remarks>
+            Pattern:<br/>
+            <code>([a-z0-9])([A-Z])</code><br/>
+            Explanation:<br/>
+            <code>
+            ○ 1st capture group.<br/>
+                ○ Match a character in the set [0-9a-z].<br/>
+            ○ 2nd capture group.<br/>
+                ○ Match a character in the set [A-Z].<br/>
+            </code>
+            </remarks>
+        </member>
+        <member name="T:EasyPark.Platform.Shared.Infrastructure.Interfaces.ASP.Configuration.KebabCaseRouteNamingConvention">
+            <summary>
+                Replaces the [controller] token with the kebab-case controller name, as in FruitLogix:
+                <c>ParkingFacilitiesController</c> is exposed at <c>/api/v1/parking-facilities</c>.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Shared.Infrastructure.Interfaces.ASP.Middleware.ErrorHandlingMiddleware">
+            <summary>
+                Converts exceptions into RFC 7807 <c>application/problem+json</c> responses with an extra
+                <c>code</c> field. Stack traces are never returned to the client.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Shared.Infrastructure.Interfaces.ASP.Middleware.ErrorHandlingMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,Microsoft.Extensions.Logging.ILogger{EasyPark.Platform.Shared.Infrastructure.Interfaces.ASP.Middleware.ErrorHandlingMiddleware})">
+            <summary>
+                Converts exceptions into RFC 7807 <c>application/problem+json</c> responses with an extra
+                <c>code</c> field. Stack traces are never returned to the client.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Shared.Infrastructure.Persistence.EFC.Configuration.AppDbContext">
+            <summary>
+                Single EF Core context of the modular monolith. Each bounded context contributes its own mapping
+                through an <c>Apply...Configuration</c> extension method (FruitLogix pattern).
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Shared.Infrastructure.Persistence.EFC.Configuration.AppDbContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{EasyPark.Platform.Shared.Infrastructure.Persistence.EFC.Configuration.AppDbContext})">
+            <summary>
+                Single EF Core context of the modular monolith. Each bounded context contributes its own mapping
+                through an <c>Apply...Configuration</c> extension method (FruitLogix pattern).
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions.ModelBuilderExtensions.UseSnakeCaseColumnNames(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <summary>
+                Column names in snake_case (for example <c>UserAccountId</c> becomes <c>user_account_id</c>).
+                Table names are declared explicitly by each bounded context.
+            </summary>
+        </member>
+        <member name="M:EasyPark.Platform.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions.ModelBuilderExtensions.UseUtcDateTimes(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <summary>
+                MySQL does not store the DateTimeKind. Every DateTime is saved and read as UTC so that the JSON
+                returned to the Web Application always ends with "Z".
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Shared.Infrastructure.Persistence.EFC.Converters.EnumCodeConverter`1">
+            <summary>
+                Stores an enum as its contract code (for example <c>OPERATOR_ADMIN</c>) so that the values seen in
+                MySQL Workbench are the same values that the REST API returns.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Shared.Infrastructure.Persistence.EFC.Migrations.InitialCreate">
+            <summary>
+                Initial schema of the five bounded contexts (8 tables). Written by hand from the EF Core model
+                configuration because the SDK was not available where this package was prepared.
+                See docs/02-MYSQL-REMOTO.md to regenerate it with <c>dotnet ef</c> if the model changes.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Shared.Infrastructure.Persistence.EFC.Migrations.ExtendedFeatures">
+            <summary>Adds seven functional tables while keeping the original eight intact.</summary>
+        </member>
+        <member name="T:EasyPark.Platform.Shared.Infrastructure.Persistence.EFC.Seeding.DemoDataSeeder">
+            <summary>
+                Demonstration data for LOCAL environments only (enabled with <c>SeedDemoData=true</c>).
+                It runs only when the database has no user accounts. Never enable it in production.
+            </summary>
+        </member>
+        <member name="T:EasyPark.Platform.Shared.Interfaces.REST.ClaimsPrincipalExtensions">
+            <summary>
+                Reads the authenticated user from the JWT claims (<c>sub</c> and <c>role</c>).
+            </summary>
+        </member>
+        <member name="T:Program">
+            <summary>Entry point, exposed for the integration tests (WebApplicationFactory).</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.KebabRegex_0">
+            <summary>Custom <see cref="T:System.Text.RegularExpressions.Regex"/>-derived type for the KebabRegex method.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.KebabRegex_0.Instance">
+            <summary>Cached, thread-safe singleton instance.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.KebabRegex_0.#ctor">
+            <summary>Initializes the instance.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.KebabRegex_0.RunnerFactory">
+            <summary>Provides a factory for creating <see cref="T:System.Text.RegularExpressions.RegexRunner"/> instances to be used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.KebabRegex_0.RunnerFactory.CreateInstance">
+            <summary>Creates an instance of a <see cref="T:System.Text.RegularExpressions.RegexRunner"/> used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.KebabRegex_0.RunnerFactory.Runner">
+            <summary>Provides the runner that contains the custom logic implementing the specified regular expression.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.KebabRegex_0.RunnerFactory.Runner.Scan(System.ReadOnlySpan{System.Char})">
+            <summary>Scan the <paramref name="inputSpan"/> starting from base.runtextstart for the next match.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.KebabRegex_0.RunnerFactory.Runner.TryFindNextPossibleStartingPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Search <paramref name="inputSpan"/> starting from base.runtextpos for the next location a match could possibly start.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if a possible match was found; false if no more matches are possible.</returns>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.KebabRegex_0.RunnerFactory.Runner.TryMatchAtCurrentPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Determine whether <paramref name="inputSpan"/> at base.runtextpos is a match for the regular expression.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if the regular expression matches at the current position; otherwise, false.</returns>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.Utilities">
+            <summary>Helper methods used by generated <see cref="T:System.Text.RegularExpressions.Regex"/>-derived implementations.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_defaultTimeout">
+            <summary>Default timeout value set in <see cref="T:System.AppContext"/>, or <see cref="F:System.Text.RegularExpressions.Regex.InfiniteMatchTimeout"/> if none was set.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_hasTimeout">
+            <summary>Whether <see cref="F:System.Text.RegularExpressions.Generated.Utilities.s_defaultTimeout"/> is non-infinite.</summary>
+        </member>
+    </members>
+</doc>
