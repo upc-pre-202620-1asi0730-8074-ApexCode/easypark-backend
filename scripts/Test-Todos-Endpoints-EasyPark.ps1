@@ -24,7 +24,8 @@ if ($BaseUrl -notmatch '^http://(localhost|127\.0\.0\.1):\d+$') {
 $Root = Split-Path -Parent $PSScriptRoot
 $EnvFile = Join-Path $Root '.env'
 $EndpointDoc = Join-Path $Root 'docs\API-ENDPOINTS.md'
-if (!(Test-Path (Join-Path $Root 'EasyPark.Platform.sln')) -or !(Test-Path $EndpointDoc)) {
+$HasSolution = (Test-Path (Join-Path $Root 'EasyPark.Platform.sln')) -or (Test-Path (Join-Path $Root 'EasyPark.Platform.slnx'))
+if (!$HasSolution -or !(Test-Path $EndpointDoc)) {
     throw 'Coloca este script dentro de la carpeta backend\scripts del ZIP de EasyPark.'
 }
 $ReportDir = Join-Path $Root 'test-results'
