@@ -11,5 +11,5 @@ Ejecuta llamadas extra para crear dependencias y verificar los cambios de estado
 No es un sustituto de pruebas de carga, seguridad o integracion frontend.
 No lo ejecutes en produccion: admite solo http://localhost o 127.0.0.1.
 Para probar la API ya encendida, usa -OnlyTest.
-Para incluir pruebas xUnit, usa -RunUnitTests.
+Para incluir pruebas xUnit, usa -RunUnitTests
 Si PowerShell bloquea la ejecucion: powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\Test-Todos-Endpoints-EasyPark.ps1
