@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="EasyPark.Platform.Tests/EasyPark.Platform.Tests.csproj" />
+  <Project Path="EasyPark.Platform/EasyPark.Platform.csproj" />
+</Solution>
