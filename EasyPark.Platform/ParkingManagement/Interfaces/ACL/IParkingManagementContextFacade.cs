@@ -1,4 +1,4 @@
-﻿namespace EasyPark.Platform.ParkingManagement.Interfaces.ACL;
+namespace EasyPark.Platform.ParkingManagement.Interfaces.ACL;
 
 public record FacilitySnapshot(int Id, int OperatorProfileId, string Name, decimal HourlyRate, bool IsActive);
 

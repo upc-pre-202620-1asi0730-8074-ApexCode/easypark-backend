@@ -1,4 +1,4 @@
-﻿namespace EasyPark.Platform.ParkingManagement.Interfaces.REST.Resources;
+namespace EasyPark.Platform.ParkingManagement.Interfaces.REST.Resources;
 
 /// <summary>Parking facility. <c>totalSpots</c> and <c>availableSpots</c> are calculated live.</summary>
 public record ParkingFacilityResource(

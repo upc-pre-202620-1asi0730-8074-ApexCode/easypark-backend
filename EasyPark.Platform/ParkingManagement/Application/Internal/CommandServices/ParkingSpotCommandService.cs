@@ -1,4 +1,4 @@
-﻿using EasyPark.Platform.AccessControl.Interfaces.ACL;
+using EasyPark.Platform.AccessControl.Interfaces.ACL;
 using EasyPark.Platform.ParkingManagement.Application.CommandServices;
 using EasyPark.Platform.ParkingManagement.Domain.Model.Aggregates;
 using EasyPark.Platform.ParkingManagement.Domain.Model.Commands;

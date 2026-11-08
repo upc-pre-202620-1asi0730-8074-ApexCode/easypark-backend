@@ -1,4 +1,4 @@
-﻿namespace EasyPark.Platform.ParkingManagement.Domain.Model.ValueObjects;
+namespace EasyPark.Platform.ParkingManagement.Domain.Model.ValueObjects;
 
 /// <summary>Contract codes: ACTIVE, INACTIVE, MAINTENANCE.</summary>
 public enum FacilityStatus

@@ -1,4 +1,4 @@
-﻿namespace EasyPark.Platform.ParkingManagement.Domain.Model.Commands;
+namespace EasyPark.Platform.ParkingManagement.Domain.Model.Commands;
 
 public record CreateParkingFacilityCommand(
     int RequesterUserAccountId,

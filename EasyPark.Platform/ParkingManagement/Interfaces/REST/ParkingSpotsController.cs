@@ -1,4 +1,4 @@
-﻿using System.Net.Mime;
+using System.Net.Mime;
 using EasyPark.Platform.ParkingManagement.Application.CommandServices;
 using EasyPark.Platform.ParkingManagement.Application.QueryServices;
 using EasyPark.Platform.ParkingManagement.Domain.Model.Queries;

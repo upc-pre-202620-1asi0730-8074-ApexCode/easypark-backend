@@ -1,4 +1,4 @@
-﻿namespace EasyPark.Platform.ParkingManagement.Domain.Model.Queries;
+namespace EasyPark.Platform.ParkingManagement.Domain.Model.Queries;
 
 /// <summary>
 ///     Facility search. Operators see their own facilities; drivers see ACTIVE facilities and can filter by

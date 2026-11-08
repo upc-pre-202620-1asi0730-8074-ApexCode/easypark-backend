@@ -1,4 +1,4 @@
-﻿using EasyPark.Platform.ParkingManagement.Domain.Model.Aggregates;
+using EasyPark.Platform.ParkingManagement.Domain.Model.Aggregates;
 using EasyPark.Platform.ParkingManagement.Domain.Model.Queries;
 
 namespace EasyPark.Platform.ParkingManagement.Application.QueryServices;

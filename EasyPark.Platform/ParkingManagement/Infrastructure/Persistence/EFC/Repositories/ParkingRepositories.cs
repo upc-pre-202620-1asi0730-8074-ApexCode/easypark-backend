@@ -1,4 +1,4 @@
-﻿using EasyPark.Platform.ParkingManagement.Domain.Model.Aggregates;
+using EasyPark.Platform.ParkingManagement.Domain.Model.Aggregates;
 using EasyPark.Platform.ParkingManagement.Domain.Model.ValueObjects;
 using EasyPark.Platform.ParkingManagement.Domain.Repositories;
 using EasyPark.Platform.Shared.Infrastructure.Persistence.EFC.Configuration;

@@ -1,4 +1,4 @@
-﻿using EasyPark.Platform.ParkingManagement.Application.QueryServices;
+using EasyPark.Platform.ParkingManagement.Application.QueryServices;
 using EasyPark.Platform.ParkingManagement.Domain.Model.Aggregates;
 using EasyPark.Platform.ParkingManagement.Domain.Model.Commands;
 using EasyPark.Platform.ParkingManagement.Interfaces.REST.Resources;

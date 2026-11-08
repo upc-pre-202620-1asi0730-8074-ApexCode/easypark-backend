@@ -1,4 +1,4 @@
-﻿using EasyPark.Platform.ParkingManagement.Domain.Model.ValueObjects;
+using EasyPark.Platform.ParkingManagement.Domain.Model.ValueObjects;
 using EasyPark.Platform.Shared.Domain.Model;
 using EasyPark.Platform.Shared.Domain.Model.Exceptions;
 
