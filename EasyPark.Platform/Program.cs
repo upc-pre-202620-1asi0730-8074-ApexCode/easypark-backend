@@ -240,7 +240,7 @@ if (app.Configuration.GetValue("OpenApi:Enabled", true))
     });
     app.MapGet("/scalar/v1", () => Results.Content(ApiDocumentationPage.ScalarHtml, "text/html"))
         .ExcludeFromDescription();
-    app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
+    app.MapGet("/", () => Results.Redirect("/scalar/v1")).ExcludeFromDescription();
 }
 
 app.UseAuthentication();
